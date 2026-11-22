@@ -123,9 +123,10 @@ Or open **`index.html`** directly in your browser to use the **Interactive Expan
 
 ## 🎓 Credits & Academic Acknowledgments
 
-* **Author & Concept Creator:** **Gwendalynn Lim (婉婷) — "1ightray"**
-  * **B.Sc. (Honours) in Applied Computing**, **Singapore Institute of Technology (SIT)**
+* **Author & Concept Creator:** **Gwendalynn Lim Wan Ting (婉婷) — "1ightray"**
+  * **Outreach Lead**, **SITech Developers (SIT Developers Club / SITdevs)**, **Singapore Institute of Technology (SIT)**
+  * **B.Sc. (Honours) in Applied Computing**, **Singapore Institute of Technology (SIT)** (10 Dover Drive / 1 Punggol Coast Road, Singapore 828608 · [2504137@sit.singaporetech.edu.sg](mailto:2504137@sit.singaporetech.edu.sg))
   * **Advanced Machine Learning & AI (SCTP)**, **Nanyang Technological University (NTU)**
   * **Founder & CTO**, **Eve Count** ([gwen@evecount.com](mailto:gwen@evecount.com) · [GitHub: @evecount](https://github.com/evecount) · [LinkedIn](https://www.linkedin.com/in/gwendalynnlim/))
 * **Academic & Educational Gratitude:**
-  Special thanks to the faculty, coursework, and academic community at the **Singapore Institute of Technology (SIT)** and **Nanyang Technological University (NTU)** for inspiring the foundational explorations into tokenization, 768-dimensional contextual embeddings, and generative text classification that sparked this workbook.
+  Special thanks to the faculty, coursework, and student developer community at the **Singapore Institute of Technology (SIT)** (**SITech Developers**) and **Nanyang Technological University (NTU)** for inspiring the foundational explorations into tokenization, 768-dimensional contextual embeddings, and generative text classification that sparked this workbook.
