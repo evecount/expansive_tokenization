@@ -443,11 +443,11 @@ CONTEXT_PACKS: Dict[str, TokenizationSet] = {
     ),
     "egyptology_poe_larp_fandom": TokenizationSet(
         pack_id="egyptology_poe_larp_fandom",
-        title="Hyper-Niche Interest Sets: Egyptology, Edgar Allan Poe Gothic & LARP / Fandoms",
-        persona_or_domain="Egyptologist / Gothic Literary Scholar / LARP LoreMaster",
+        title="Hyper-Niche Interest Sets: Egyptology, Edgar Allan Poe Gothic, Anime & LARP / Fandoms",
+        persona_or_domain="Egyptologist / Gothic Literary Scholar / Anime & LARP LoreMaster",
         description=(
             "Proves that a Tokenization Set Generator can serve any human passion—from deciphering Middle Egyptian hieroglyphic "
-            "concepts and Edgar Allan Poe's macabre prosody to running an immersive Live-Action Roleplay (LARP) or deep fandom universe."
+            "concepts and Edgar Allan Poe's macabre prosody to anime/manga tropes and running an immersive Live-Action Roleplay (LARP) or deep fandom universe."
         ),
         ontological_categories={
             "<|EGYPTOLOGY_AND_HIEROGLYPHIC_COSMOS|>": [
@@ -456,8 +456,9 @@ CONTEXT_PACKS: Dict[str, TokenizationSet] = {
             "<|EDGAR_ALLAN_POE_GOTHIC_LEXICON|>": [
                 "nevermore", "tintinnabulation", "lenore", "usher", "amontillado", "tell-tale_heart", "sepulchre", "phantasmagoric", "lugubrious"
             ],
-            "<|LARP_AND_FANDOM_WORLDBUILDING|>": [
-                "in-character", "out-of-character", "phys-rep", "bleed_effect", "headcanon", "retcon", "lore_drop", "worldbuilding_bible"
+            "<|ANIME_LARP_AND_FANDOM_WORLDBUILDING|>": [
+                "in-character", "out-of-character", "phys-rep", "bleed_effect", "headcanon", "retcon", "lore_drop",
+                "isekai", "nakama", "shonen_power_up", "tsundere", "yandere", "chunibyo", "sakuga", "filler_arc"
             ],
         },
         semantic_definitions={
@@ -469,11 +470,15 @@ CONTEXT_PACKS: Dict[str, TokenizationSet] = {
             "amontillado": "rare pale Spanish sherry used as the fatal lure in Poe's Cask of Amontillado",
             "bleed_effect": "LARP phenomenon where emotional states spill over between player and character",
             "phys-rep": "physical prop representation used in Live-Action Roleplay to embody an in-world artifact",
+            "isekai": "anime subgenre where a protagonist is transported or reincarnated into a parallel fantasy world",
+            "chunibyo": "grandiose adolescent delusion of possessing secret mythical or supernatural powers",
+            "sakuga": "sequence of breathtakingly fluid, hand-drawn keyframe animation at the climax of an anime episode",
+            "nakama": "deeply bonded companions and found-family crew who risk everything for one another",
         },
         sample_corpus=[
             "Egyptology: Within the royal cartouche, the pharaoh upheld ma'at against isfet so the ka_and_ba could traverse the duat.",
             "Edgar Allan Poe Gothic: Amid the lugubrious tintinnabulation of bells by the sepulchre, the raven croaked nevermore for lost lenore.",
-            "LARP & Fandom: Stay in-character with your enchanted phys-rep during the lore_drop, and check in after if you experience bleed_effect.",
+            "Anime & LARP Fandom: Stay in-character with your enchanted phys-rep during the isekai lore_drop, and celebrate the sakuga climax with your nakama.",
         ],
         contrast_pairs=[
             ContrastPair(
@@ -488,9 +493,9 @@ CONTEXT_PACKS: Dict[str, TokenizationSet] = {
                 target_word="canon",
                 context_a_label="Classical Music Composition",
                 sentence_a="The string quartet performed Pachelbel's canon in D major at the concert hall.",
-                context_b_label="Literary Corpus & Fandom Lore",
-                sentence_b="Wait, did the showrunners confirm whether that prequel novel is official canon or just fan headcanon?",
-                semantic_note="Shifts from a contrapuntal musical form to the authoritative body of accepted lore within a fictional universe.",
+                context_b_label="Anime & Literary Fandom Lore",
+                sentence_b="Did the mangaka confirm whether that anime movie is official canon, headcanon, or just a filler arc?",
+                semantic_note="Shifts from a contrapuntal musical form to the authoritative body of accepted lore within an anime or fictional universe.",
             ),
         ],
     ),
