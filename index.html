@@ -1,547 +1,543 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Expansive Tokenization Workbook & Set Generator | Eve Count</title>
+  <title>Expansive Tokenization & Context-of-Interest Studio | Gwendalynn Lim Wan Ting (SIT)</title>
   <style>
-    :root {
-      --bg: #0c0e14;
-      --surface: #141824;
-      --surface-alt: #1b2030;
-      --border: #2a324b;
-      --text: #eef1f8;
-      --muted: #9aa4bf;
-      --accent: #a78bfa;
-      --accent-2: #38bdf8;
-      --accent-3: #34d399;
-      --warn: #fb7185;
-      --gold: #fbbf24;
-      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    :root[data-theme="dark"] {
+      --bg: #0b0d14;
+      --sidebar-bg: #0f121c;
+      --surface: #151926;
+      --surface-alt: #1c2235;
+      --hero-bg: #f8fafc;
+      --hero-text: #0f172a;
+      --border: #262f47;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #818cf8;
+      --accent-bright: #38bdf8;
+      --good: #34d399;
+      --warn: #fbbf24;
+      --bad: #fb7185;
+    }
+    :root[data-theme="light"] {
+      --bg: #f8fafc;
+      --sidebar-bg: #f1f5f9;
+      --surface: #ffffff;
+      --surface-alt: #f1f5f9;
+      --hero-bg: #ffffff;
+      --hero-text: #0f172a;
+      --border: #cbd5e1;
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #4f46e5;
+      --accent-bright: #0284c7;
+      --good: #059669;
+      --warn: #d97706;
+      --bad: #e11d48;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: var(--font-sans);
-      line-height: 1.6;
-      padding: 2rem 1.25rem 4rem;
-    }
-    .container {
-      max-width: 1180px;
-      margin: 0 auto;
-    }
-    header {
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 1.75rem;
-      margin-bottom: 2rem;
-    }
-    .eyebrow {
-      display: inline-block;
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--accent-2);
-      background: rgba(56, 189, 248, 0.12);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      padding: 0.25rem 0.75rem;
-      border-radius: 999px;
-      margin-bottom: 0.75rem;
-    }
-    h1 {
-      font-size: 2.2rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.5rem;
-      background: linear-gradient(90deg, #fff, #c4b5fd, #38bdf8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .subtitle {
-      color: var(--muted);
-      font-size: 1.05rem;
-      max-width: 880px;
-    }
-    .pack-tabs {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.65;
       display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 1.75rem;
+      flex-direction: column;
+      min-height: 100vh;
     }
-    .pack-tab {
-      background: var(--surface);
-      color: var(--muted);
-      border: 1px solid var(--border);
-      padding: 0.55rem 0.95rem;
-      border-radius: 0.6rem;
-      cursor: pointer;
-      font-size: 0.88rem;
-      font-weight: 600;
-      transition: all 0.15s ease;
-    }
-    .pack-tab:hover {
-      border-color: var(--accent);
-      color: var(--text);
-    }
-    .pack-tab.active {
-      background: linear-gradient(135deg, rgba(167, 139, 250, 0.22), rgba(56, 189, 248, 0.18));
-      color: #fff;
-      border-color: var(--accent);
-      box-shadow: 0 4px 16px rgba(167, 139, 250, 0.18);
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 1.5rem;
-    }
-    @media (max-width: 920px) {
-      .grid { grid-template-columns: 1fr; }
-    }
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 0.9rem;
-      padding: 1.4rem;
-      margin-bottom: 1.5rem;
-    }
-    .card h2 {
-      font-size: 1.18rem;
-      margin-bottom: 0.35rem;
+    /* Top AgentCon / MkDocs Material Header Bar */
+    .topbar {
+      height: 56px;
+      background: linear-gradient(90deg, #4338ca 0%, #4f46e5 45%, #3b82f6 100%);
+      color: #ffffff;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      padding: 0 1.25rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
     }
-    .card .desc {
-      color: var(--muted);
-      font-size: 0.9rem;
-      margin-bottom: 1rem;
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      font-weight: 700;
+      font-size: 0.98rem;
+      letter-spacing: -0.01em;
     }
-    .metrics-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+    .topbar-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
       gap: 0.75rem;
+    }
+    .search-box {
+      background: rgba(15, 23, 42, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: #fff;
+      border-radius: 6px;
+      padding: 0.38rem 0.85rem;
+      font-size: 0.84rem;
+      width: 230px;
+      outline: none;
+    }
+    .search-box::placeholder { color: rgba(255, 255, 255, 0.75); }
+    .theme-btn {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #fff;
+      padding: 0.32rem 0.65rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    /* 3-Column Workshop Layout */
+    .workspace {
+      display: grid;
+      grid-template-columns: 260px 1fr 230px;
+      flex: 1;
+      max-width: 1560px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    @media (max-width: 1120px) {
+      .workspace { grid-template-columns: 240px 1fr; }
+      .right-toc { display: none; }
+    }
+    @media (max-width: 780px) {
+      .workspace { grid-template-columns: 1fr; }
+      .left-nav { border-right: none; border-bottom: 1px solid var(--border); }
+    }
+    /* Left Chapter Navigation */
+    .left-nav {
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border);
+      padding: 1.35rem 0.9rem;
+      position: sticky;
+      top: 56px;
+      height: calc(100vh - 56px);
+      overflow-y: auto;
+    }
+    .nav-section-title {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0 0.6rem;
+      margin-bottom: 0.65rem;
+    }
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .nav-item {
+      padding: 0.48rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.84rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.12s ease;
+      display: block;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .nav-item:hover {
+      background: var(--surface-alt);
+      color: var(--text);
+    }
+    .nav-item.active {
+      background: rgba(99, 102, 241, 0.16);
+      color: var(--accent);
+      font-weight: 700;
+      border-left: 3px solid var(--accent);
+    }
+    .series-switcher {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+    /* Center Content Area */
+    .center-stage {
+      padding: 1.75rem 2.25rem 4rem;
+      max-width: 980px;
+      width: 100%;
+    }
+    /* AgentCon Style Hero Banner Card */
+    .hero-banner {
+      background: var(--hero-bg);
+      color: var(--hero-text);
+      border-radius: 14px;
+      padding: 2.2rem 2rem 1.6rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: #1e293b;
+      color: #38bdf8;
+      font-size: 0.74rem;
+      font-weight: 800;
+      padding: 0.28rem 0.85rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.85rem;
+    }
+    .hero-banner h1 {
+      font-size: 2.05rem;
+      font-weight: 900;
+      letter-spacing: -0.025em;
+      color: #0f172a;
+      margin-bottom: 0.55rem;
+      line-height: 1.2;
+    }
+    .hero-banner p {
+      color: #334155;
+      font-size: 0.98rem;
+      max-width: 720px;
+      margin: 0 auto 1.15rem;
+    }
+    .hero-pill-btn {
+      display: inline-block;
+      background: #0f172a;
+      color: #ffffff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.84rem;
+      font-weight: 700;
+      padding: 0.55rem 1.35rem;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-bottom: 1.25rem;
+    }
+    .hero-sponsors {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 1.4rem;
+      padding-top: 0.95rem;
+      border-top: 1px solid #e2e8f0;
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: #475569;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    /* Chapter Content Cards */
+    .chapter-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.65rem;
+      margin-bottom: 1.5rem;
+    }
+    .chapter-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+      color: var(--accent-bright);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.35rem;
+    }
+    .chapter-card h2 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 0.55rem;
+    }
+    .chapter-desc {
+      color: var(--muted);
+      font-size: 0.94rem;
       margin-bottom: 1.2rem;
     }
-    .metric-box {
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.85rem;
+      margin-bottom: 1.25rem;
+    }
+    .kpi-box {
       background: var(--surface-alt);
       border: 1px solid var(--border);
-      border-radius: 0.65rem;
-      padding: 0.75rem;
+      border-radius: 8px;
+      padding: 0.85rem;
       text-align: center;
     }
-    .metric-val {
-      font-size: 1.45rem;
+    .kpi-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.35rem;
       font-weight: 800;
-      font-family: var(--font-mono);
+      color: var(--accent-bright);
     }
-    .metric-label {
-      font-size: 0.75rem;
+    .kpi-label {
+      font-size: 0.72rem;
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      margin-top: 0.2rem;
     }
-    .slot-group {
+    .callout {
+      background: var(--surface-alt);
+      border-left: 4px solid var(--accent);
+      padding: 1rem 1.15rem;
+      border-radius: 6px;
       margin-bottom: 1rem;
+      font-size: 0.9rem;
     }
-    .slot-title {
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      color: var(--accent-2);
-      margin-bottom: 0.4rem;
+    .callout-title {
+      font-weight: 700;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent-bright);
+      margin-bottom: 0.3rem;
     }
-    .token-pills {
+    .pill-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.4rem;
+      gap: 0.45rem;
+      margin-top: 0.6rem;
     }
     .pill {
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
       padding: 0.25rem 0.6rem;
-      border-radius: 0.4rem;
-      background: rgba(167, 139, 250, 0.14);
-      border: 1px solid rgba(167, 139, 250, 0.35);
-      color: #e9d5ff;
+      border-radius: 5px;
+      background: rgba(129, 140, 248, 0.14);
+      border: 1px solid rgba(129, 140, 248, 0.35);
     }
-    .pill.fractured {
-      background: rgba(251, 113, 133, 0.13);
-      border-color: rgba(251, 113, 133, 0.4);
-      color: #fecdd3;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+      margin-top: 0.75rem;
     }
-    .pill.atomic {
-      background: rgba(52, 211, 153, 0.14);
-      border-color: rgba(52, 211, 153, 0.45);
-      color: #a7f3d0;
+    th, td {
+      border-bottom: 1px solid var(--border);
+      padding: 0.6rem 0.55rem;
+      text-align: left;
     }
-    .contrast-box {
-      background: var(--surface-alt);
-      border: 1px solid var(--border);
-      border-radius: 0.75rem;
-      padding: 1rem;
-      margin-bottom: 0.9rem;
+    th {
+      color: var(--accent-bright);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      text-transform: uppercase;
     }
-    .contrast-header {
+    /* Right Table of Contents Rail */
+    .right-toc {
+      padding: 1.35rem 1rem;
+      position: sticky;
+      top: 56px;
+      height: calc(100vh - 56px);
+      overflow-y: auto;
+      border-left: 1px solid var(--border);
+    }
+    .toc-list {
+      list-style: none;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.5rem;
-    }
-    .target-badge {
-      font-family: var(--font-mono);
-      font-weight: 700;
-      color: var(--gold);
-      background: rgba(251, 191, 36, 0.14);
-      border: 1px solid rgba(251, 191, 36, 0.35);
-      padding: 0.15rem 0.55rem;
-      border-radius: 0.4rem;
-    }
-    .sim-badge {
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      color: var(--accent-2);
-    }
-    .ctx-line {
-      font-size: 0.86rem;
-      margin-bottom: 0.35rem;
-    }
-    .ctx-label {
-      font-weight: 700;
-      color: var(--accent);
-    }
-    .ctx-note {
+      flex-direction: column;
+      gap: 0.45rem;
       font-size: 0.8rem;
       color: var(--muted);
-      margin-top: 0.4rem;
-      font-style: italic;
     }
-    textarea, input {
-      width: 100%;
+    .toc-list a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .toc-list a:hover { color: var(--accent-bright); }
+    .nav-footer-btns {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.5rem;
+    }
+    .step-btn {
       background: var(--surface-alt);
       border: 1px solid var(--border);
       color: var(--text);
-      border-radius: 0.5rem;
-      padding: 0.65rem 0.8rem;
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      margin-bottom: 0.75rem;
-    }
-    button.action-btn {
-      background: linear-gradient(135deg, #8b5cf6, #0ea5e9);
-      color: #fff;
-      border: none;
-      padding: 0.65rem 1.2rem;
-      border-radius: 0.55rem;
-      font-weight: 700;
+      padding: 0.6rem 1.1rem;
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 0.88rem;
+      font-weight: 600;
+      font-size: 0.85rem;
     }
-    button.action-btn:hover { opacity: 0.92; }
+    .step-btn:hover { border-color: var(--accent); }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <span class="eyebrow">evecount / expansive_tokenization · Interactive Workbook</span>
-      <h1>Expansive Tokenization & Context-of-Interest Studio</h1>
-      <p class="subtitle">
-        Tokenization is an act of classification based on who you are speaking to and what cultural, regional, or technical world they inhabit. Explore all 8 pre-built Context-of-Interest Packs or generate your own custom tokenization set below.
-      </p>
-    </header>
-
-    <div class="pack-tabs" id="packTabs"></div>
-
-    <div class="grid">
-      <div>
-        <div class="card">
-          <h2 id="packTitle">Loading...</h2>
-          <p class="desc" id="packDesc"></p>
-
-          <div class="metrics-row">
-            <div class="metric-box">
-              <div class="metric-val" id="metricFertility" style="color: var(--warn);">3.12x</div>
-              <div class="metric-label">Baseline Subword Fertility</div>
-            </div>
-            <div class="metric-box">
-              <div class="metric-val" id="metricFracture" style="color: var(--gold);">96.0%</div>
-              <div class="metric-label">Semantic Fracture Rate</div>
-            </div>
-            <div class="metric-box">
-              <div class="metric-val" id="metricExpanded" style="color: var(--accent-3);">1.00x</div>
-              <div class="metric-label">Expanded Atomic Fertility</div>
-            </div>
-          </div>
-
-          <div id="ontologicalSlots"></div>
-        </div>
-
-        <div class="card">
-          <h2>Live Before vs. After Subword Comparison</h2>
-          <p class="desc">See how a standard BPE/WordPiece tokenizer shatters domain expressions vs. preserving atomic meaning after Context-of-Interest Expansion.</p>
-          <div style="margin-bottom: 0.75rem;">
-            <div class="slot-title">SAMPLE CORPUS SENTENCE</div>
-            <div id="sampleSentence" style="font-size: 0.92rem; margin-bottom: 0.75rem; color: #fff;"></div>
-            <div class="slot-title" style="color: var(--warn);">❌ STANDARD TOKENIZER (SHATTERED SUBWORDS)</div>
-            <div class="token-pills" id="beforePills" style="margin-bottom: 0.85rem;"></div>
-            <div class="slot-title" style="color: var(--accent-3);">✅ EXPANSIVE CONTEXT-OF-INTEREST TOKENIZER (ATOMIC CONCEPTS)</div>
-            <div class="token-pills" id="afterPills"></div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <div class="card">
-          <h2>768-D Contextual Embedding Shifts (Same Word, Different World)</h2>
-          <p class="desc">Empirical cosine similarity & vector drift in 768-dimensional BERT space when the exact same surface word is spoken across two different contexts of interest.</p>
-          <div id="contrastList"></div>
-        </div>
-
-        <div class="card">
-          <h2>🛠️ Custom Tokenization Set Generator</h2>
-          <p class="desc">Create a plug-and-play tokenization JSON specification for any fandom, LARP universe, regional dialect, or literary canon.</p>
-          <input type="text" id="customName" placeholder="Pack Title (e.g., Nordic LARP & Gothic Lore / Brazilian vs. European Portuguese)" value="Custom Fandom & Regional Dialect Pack" />
-          <input type="text" id="customSlot" placeholder="Ontological Slot Tag" value="<|CORE_DOMAIN_TOKENS|>" />
-          <textarea id="customTokens" rows="3" placeholder="Comma-separated atomic tokens">katabasis, tintinnabulation, phys-rep, bleed_effect, dépanneur, tiguidou, shiok, Fingerspitzengefühl</textarea>
-          <button class="action-btn" onclick="exportCustomPack()">Download Custom Tokenization Set (.json)</button>
-        </div>
-      </div>
+  <!-- Top Workshop Header Bar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-icon">⚛️</div>
+      <span>Building Context-of-Interest Tokenization Sets</span>
+    </div>
+    <div class="topbar-right">
+      <input type="text" class="search-box" id="searchBox" placeholder="Search workshop chapters..." oninput="filterChapters(this.value)" />
+      <button class="theme-btn" onclick="toggleTheme()">☀️ / 🌙 Theme</button>
     </div>
   </div>
 
+  <!-- 3-Column Workshop Body -->
+  <div class="workspace">
+    <!-- Left Numbered Chapter Sidebar -->
+    <aside class="left-nav">
+      <div class="nav-section-title">Building Context-of-Interest Tokenization Sets</div>
+      <ul class="nav-list" id="chapterNavList"></ul>
+
+      <div class="series-switcher">
+        <div class="nav-section-title">SIT 4-Part AI Workshop Series</div>
+        <ul class="nav-list">
+          <li><a class="nav-item" href="https://github.com/evecount/expansive_tokenization" target="_blank">🏛️ Part 1 · Expansive Tokenization</a></li>
+          <li><a class="nav-item" href="https://github.com/evecount/text_classification_by_audience" target="_blank">🎭 Part 2 · Classification by Audience</a></li>
+          <li><a class="nav-item" href="https://github.com/evecount/diffusion_model_oops_britney" target="_blank">🎬 Part 3 · Diffusion with Britney</a></li>
+          <li><a class="nav-item" href="https://github.com/evecount/Coordinate_Index-Based-Sparse-Adapter-Compression" target="_blank">⚛️ Part 4 · Coordinate PEFT & Quantum</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Center Main Workshop Stage -->
+    <main class="center-stage">
+      <!-- AgentCon-Style Hero Banner -->
+      <div class="hero-banner">
+        <span class="hero-badge">SIT ICT3507C · Tokenization & 768-D Embedding Workshop</span>
+        <h1>Expansive Tokenization Studio</h1>
+        <p>Why Retraining Models from Scratch Is Redundant — Pluggable Tokenization Lenses for Greek Myth, Anime, LARP & Global Dialects</p>
+        <a class="hero-pill-btn" href="https://github.com/evecount/expansive_tokenization" target="_blank">github.com/evecount/expansive_tokenization</a>
+        <div class="hero-sponsors">
+          <span>SIT · Singapore Institute of Technology</span>
+          <span>SITech Developers (Outreach Lead)</span>
+          <span>NTU · SCTP Advanced ML &amp; AI</span>
+          <span>Eve Count · Quantum &amp; AI</span>
+        </div>
+      </div>
+
+      <!-- Dynamic Chapter Render Container -->
+      <div id="chapterStage"></div>
+
+      <div class="nav-footer-btns">
+        <button class="step-btn" onclick="prevChapter()">← Previous Chapter</button>
+        <button class="step-btn" onclick="nextChapter()">Next Chapter →</button>
+      </div>
+    </main>
+
+    <!-- Right Table of Contents Rail -->
+    <aside class="right-toc">
+      <div class="nav-section-title">Table of contents</div>
+      <ul class="toc-list" id="rightTocList"></ul>
+    </aside>
+  </div>
+
   <script>
-    const PACKS = [
-      {
-        id: "greek_mythology_poetry",
-        tab: "🏛️ Greek Myth & Poetry",
-        title: "Greek Mythology & Epic Poetry",
-        desc: "Preserves Greek epic concepts, Homeric compound epithets, and prosodic structures as atomic tokens instead of shattering them into unrelated subword fragments.",
-        fertility: "3.12x",
-        fracture: "96.0%",
-        slots: {
-          "<|ETHOS_AND_FATE|>": ["kleos", "nostos", "xenia", "hubris", "nemesis", "moirai", "aristeia", "arete"],
-          "<|COSMOLOGY_AND_RITE|>": ["katabasis", "apotheosis", "chthonic", "ambrosia", "ichor", "aegis", "asphodel"],
-          "<|POETIC_FORM_AND_EPITHET|>": ["rhapsode", "dactylic_hexameter", "caesura", "wine-dark_sea", "rosy-fingered_dawn"]
-        },
-        sample: "The rhapsode chanted in dactylic_hexameter of Odysseus yearning for nostos across the wine-dark_sea.",
-        before: ["the", "rh", "##aps", "##ode", "chanted", "in", "da", "##ct", "##yl", "##ic", "_", "hex", "##ame", "##ter", "of", "od", "##ys", "##seus", "yearning", "for", "nos", "##tos", "across", "the", "wine", "-", "dark", "_", "sea", "."],
-        after: ["the", "rhapsode", "chanted", "in", "dactylic_hexameter", "of", "odysseus", "yearning", "for", "nostos", "across", "the", "wine-dark_sea", "."],
-        contrasts: [
-          { word: "shade", sim: "0.5418", shift: "0.4582", aLabel: "Everyday Modern English", aSent: "We sat under the cool shade of the oak tree to escape the afternoon sun.", bLabel: "Homeric Underworld / Katabasis", bSent: "Down in the House of Hades, the weeping shade of Achilles longed for a single breath of mortal life.", note: "Shifts from physical shadow/shelter to a disembodied soul in the Underworld." },
-          { word: "weaver", sim: "0.6712", shift: "0.3288", aLabel: "Industrial Textile Trade", aSent: "The factory weaver inspected the cotton loom for broken threads.", bLabel: "Mythic Fate & Guile (Penelope / Moirai)", bSent: "By torchlight, the cunning weaver unravelled the burial shroud to delay her suitors and outwit fate.", note: "Shifts from literal textile labor to mythic agency, stratagem, and destiny." }
-        ]
-      },
-      {
-        id: "egyptology_poe_larp_fandom",
-        tab: "🏺 Egyptology, Poe, Anime & LARP",
-        title: "Hyper-Niche Interest Sets: Egyptology, Edgar Allan Poe Gothic, Anime & LARP / Fandoms",
-        desc: "Proves that a Tokenization Set Generator can serve any human passion—from Middle Egyptian hieroglyphic cosmology and Edgar Allan Poe's macabre prosody to anime/manga subcultures, Live-Action Roleplay (LARP), and fandom worldbuilding.",
-        fertility: "3.28x",
-        fracture: "97.1%",
-        slots: {
-          "<|EGYPTOLOGY_COSMOS|>": ["ma'at", "isfet", "ka_and_ba", "akh", "cartouche", "ushabti", "canopic_jar", "duat", "ankh"],
-          "<|EDGAR_ALLAN_POE_GOTHIC|>": ["nevermore", "tintinnabulation", "lenore", "usher", "amontillado", "tell-tale_heart", "sepulchre", "lugubrious"],
-          "<|ANIME_LARP_AND_FANDOM_LORE|>": ["in-character", "out-of-character", "phys-rep", "bleed_effect", "headcanon", "retcon", "lore_drop", "isekai", "nakama", "sakuga", "chunibyo", "tsundere"]
-        },
-        sample: "Amid the lugubrious tintinnabulation of bells by the sepulchre, stay in-character with your phys-rep during the lore_drop.",
-        before: ["amid", "the", "lu", "##gu", "##brious", "tin", "##tin", "##na", "##bul", "##ation", "of", "bells", "by", "the", "sep", "##ul", "##chre", ",", "stay", "in", "-", "character", "with", "your", "phys", "-", "rep", "during", "the", "lore", "_", "drop", "."],
-        after: ["amid", "the", "lugubrious", "tintinnabulation", "of", "bells", "by", "the", "sepulchre", ",", "stay", "in-character", "with", "your", "phys-rep", "during", "the", "lore_drop", "."],
-        contrasts: [
-          { word: "bleed", sim: "0.5487", shift: "0.4513", aLabel: "Clinical Medicine", aSent: "Apply firm direct pressure with a bandage to stop the wound from continuing to bleed.", bLabel: "LARP & Immersive Roleplay Theory", bSent: "After a three-day Nordic LARP campaign, players debriefed to process emotional bleed between character and self.", note: "Shifts from physical hemorrhage to psychological/emotional spillover between a roleplayer and their persona." },
-          { word: "canon", sim: "0.5739", shift: "0.4261", aLabel: "Classical Music Composition", aSent: "The string quartet performed Pachelbel's canon in D major at the concert hall.", bLabel: "Literary Corpus & Fandom Lore", bSent: "Wait, did the showrunners confirm whether that prequel novel is official canon or just fan headcanon?", note: "Shifts from contrapuntal music to the authoritative body of lore within a fictional universe." }
-        ]
-      },
-      {
-        id: "ml_vs_general",
-        tab: "🧬 General vs. ML Researcher",
-        title: "Interlocutor Adaptation: General Speaker vs. ML Researcher",
-        desc: "Demonstrates how knowing your interlocutor is studying Machine Learning expands the tokenization set and radically re-orients the 768-D embeddings of words like 'attention', 'weights', and 'loss'.",
-        fertility: "3.67x",
-        fracture: "100.0%",
-        slots: {
-          "<|ARCHITECTURE_PRIMITIVES|>": ["attention_head", "self-attention", "token_embedding", "positional_encoding", "residual_stream", "kv_cache"],
-          "<|OPTIMIZATION_AND_TRAINING|>": ["gradient_descent", "backpropagation", "cross_entropy_loss", "lora_adapter", "quantization", "perplexity"],
-          "<|TOKENIZATION_THEORY|>": ["byte_pair_encoding", "subword_fertility", "out_of_vocabulary", "context_window"]
-        },
-        sample: "During backpropagation, gradient_descent updates each attention_head and token_embedding to minimize cross_entropy_loss.",
-        before: ["during", "back", "##prop", "##aga", "##tion", ",", "gradient", "_", "descent", "updates", "each", "attention", "_", "head", "and", "token", "_", "em", "##bed", "##ding", "to", "minimize", "cross", "_", "ent", "##rop", "##y", "_", "loss", "."],
-        after: ["during", "backpropagation", ",", "gradient_descent", "updates", "each", "attention_head", "and", "token_embedding", "to", "minimize", "cross_entropy_loss", "."],
-        contrasts: [
-          { word: "attention", sim: "0.5843", shift: "0.4157", aLabel: "General Everyday Speaker", aSent: "Please pay attention to the teacher while she explains the rules to the class.", bLabel: "Machine Learning Researcher", bSent: "Multi-head causal attention computes scaled dot-product weights between query, key, and value matrices.", note: "Shifts from human behavioral focus to bilinear matrix operations over token vectors." },
-          { word: "weights", sim: "0.5194", shift: "0.4806", aLabel: "General Everyday Speaker", aSent: "He lifted heavy iron weights at the gym to build muscle strength.", bLabel: "Machine Learning Researcher", bSent: "We froze the pretrained transformer weights and updated only the low-rank projection matrices.", note: "Shifts from physical gym equipment to learnable floating-point parameters in a neural network." }
-        ]
-      },
-      {
-        id: "generational_slang",
-        tab: "⚡ Millennial vs. Gen-Z",
-        title: "Generational Slang: Millennial vs. Gen-Z Semantic Drift",
-        desc: "Captures how generational cohorts coin atomic multi-word idioms and repurpose existing English words ('cooked', 'bet', 'ate', 'aura') with sharply divergent semantic polarities.",
-        fertility: "2.63x",
-        fracture: "66.7%",
-        slots: {
-          "<|MILLENNIAL_LEXICON|>": ["adulting", "doggo", "pupper", "on_fleek", "side_hustle", "FOMO", "avocado_toast", "epic_fail"],
-          "<|GEN_Z_LEXICON|>": ["no_cap", "rizz", "skibidi", "delulu", "aura_points", "main_character_energy", "ate_and_left_no_crumbs", "let_him_cook"],
-          "<|POLYSEMOUS_PIVOT_TOKENS|>": ["cooked", "bet", "tea", "cap", "slay", "based", "ghosted"]
-        },
-        sample: "No_cap, her presentation ate_and_left_no_crumbs—pure main_character_energy and infinite aura_points.",
-        before: ["no", "_", "cap", ",", "her", "presentation", "ate", "_", "and", "_", "left", "_", "no", "_", "crumb", "##s", "—", "pure", "main", "_", "character", "_", "energy", "and", "infinite", "aura", "_", "points", "."],
-        after: ["no_cap", ",", "her", "presentation", "ate_and_left_no_crumbs", "—", "pure", "main_character_energy", "and", "infinite", "aura_points", "."],
-        contrasts: [
-          { word: "cooked", sim: "0.5310", shift: "0.4690", aLabel: "Literal Culinary / Millennial Standard", aSent: "My grandmother cooked a warm pot of chicken soup on the stove for dinner.", bLabel: "Gen-Z Slang (Doomed vs. Masterful)", bSent: "I didn't study for the exam at all, bro I am completely cooked.", note: "Shifts from preparing food with heat to being utterly defeated, exhausted, or doomed." },
-          { word: "bet", sim: "0.4892", shift: "0.5108", aLabel: "Traditional Gambling / Wager", aSent: "He placed a twenty dollar bet on the horse race at the track.", bLabel: "Gen-Z Affirmative Discourse Marker", bSent: "You want to grab boba at five o'clock? Bet, I will see you there.", note: "Shifts from a monetary wager to an enthusiastic marker of agreement and confirmation." }
-        ]
-      },
-      {
-        id: "commonwealth_englishes",
-        tab: "🌍 Commonwealth Englishes",
-        title: "World Englishes & Commonwealth Lexical Sets (SG / UK / AU / CA)",
-        desc: "Prevents non-US English varieties from being treated as noisy anomalies by equipping the tokenizer with Singaporean (Singlish), British, Australian, and Canadian lexical anchors.",
-        fertility: "2.54x",
-        fracture: "84.6%",
-        slots: {
-          "<|SINGAPORE_MALAYSIA_ENGLISH|>": ["shiok", "kiasu", "lepak", "makan", "tapau", "kopitiam", "paiseh", "bojio", "can_or_not"],
-          "<|UK_AND_HIBERNO_ENGLISH|>": ["fortnight", "chuffed", "knackered", "cheeky_nandos", "gobsmacked", "kerfuffle", "brolly"],
-          "<|AUSTRALIAN_AND_CANADIAN|>": ["arvo", "fair_dinkum", "strewth", "maccas", "toque", "double-double", "loonie"]
-        },
-        sample: "The laksa at the kopitiam was so shiok! Let's tapau two bowls before the kiasu crowd arrives.",
-        before: ["the", "la", "##ksa", "at", "the", "ko", "##pit", "##iam", "was", "so", "sh", "##iok", "!", "let", "'", "s", "tap", "##au", "two", "bowls", "before", "the", "ki", "##as", "##u", "crowd", "arrives", "."],
-        after: ["the", "laksa", "at", "the", "kopitiam", "was", "so", "shiok", "!", "let's", "tapau", "two", "bowls", "before", "the", "kiasu", "crowd", "arrives", "."],
-        contrasts: [
-          { word: "boot", sim: "0.6105", shift: "0.3895", aLabel: "North American English (Footwear)", aSent: "He laced up his leather hiking boot before walking through the snow.", bLabel: "British & Commonwealth English (Vehicle Storage)", bSent: "Put the suitcases and groceries into the boot of the car before we drive onto the motorway.", note: "Shifts from heavy footwear to the rear luggage compartment (trunk) of an automobile." },
-          { word: "scheme", sim: "0.5931", shift: "0.4069", aLabel: "North American English (Deceptive Plot)", aSent: "The con artist was arrested for running a fraudulent pyramid scheme.", bLabel: "UK & Singapore Public Policy English (Official Program)", bSent: "The ministry launched a new housing grant scheme to support first-time young families.", note: "Shifts from a sinister conspiracy to a legitimate public initiative or government program." }
-        ]
-      },
-      {
-        id: "francophone_diatopic",
-        tab: "⚜️ Québec vs. Paris French",
-        title: "Francophone Diatopic Nuances: Québec vs. Paris vs. Francophonie",
-        desc: "Illustrates how French diverges across Québec, Parisian registers (including Verlan), and the broader Francophonie—where shared words like 'char' or 'dépanneur' carry completely distinct meanings.",
-        fertility: "2.78x",
-        fracture: "95.7%",
-        slots: {
-          "<|QUEBECOIS_LEXICON|>": ["dépanneur", "tiguidou", "poudrerie", "magasiner", "jasette", "tuque", "breuvage", "fin_de_semaine"],
-          "<|PARISIAN_AND_VERLAN|>": ["meuf", "chelou", "relou", "boulot", "bagnole", "kiffer", "ouf", "bouquin"],
-          "<|PAN_FRANCOPHONE_AFRICA|>": ["teranga", "griot", "maquis", "palabre", "ambianceur", "essencerie"]
-        },
-        sample: "J'ai pris mon char dans la poudrerie pour aller au dépanneur et magasiner avec mon chum.",
-        before: ["j", "'", "ai", "pris", "mon", "char", "dans", "la", "pou", "##dre", "##rie", "pour", "aller", "au", "dep", "##anne", "##ur", "et", "ma", "##gas", "##iner", "avec", "mon", "ch", "##um", "."],
-        after: ["j'ai", "pris", "mon", "char", "dans", "la", "poudrerie", "pour", "aller", "au", "dépanneur", "et", "magasiner", "avec", "mon", "chum", "."],
-        contrasts: [
-          { word: "char", sim: "0.6428", shift: "0.3572", aLabel: "Metropolitan Parisian French (Military Tank)", aSent: "Le char d'assaut blindé a traversé le terrain militaire pendant le défilé.", bLabel: "Québécois French (Everyday Automobile / Car)", bSent: "J'ai stationné mon char devant le dépanneur pour acheter du lait.", note: "In Paris, 'char' evokes an armored tank or chariot; in Québec, it is the everyday word for one's car." },
-          { word: "dépanneur", sim: "0.6815", shift: "0.3185", aLabel: "Metropolitan Parisian French (Repair Technician)", aSent: "Ma voiture est tombée en panne sur l'autoroute, j'ai dû appeler un dépanneur.", bLabel: "Québécois French (Corner Convenience Store)", bSent: "On marche jusqu'au dépanneur du coin pour chercher des chips et une bière.", note: "In France, a 'dépanneur' is an emergency repairman; in Québec, it is the neighborhood convenience store." }
-        ]
-      },
-      {
-        id: "iberian_lusophone_germanic",
-        tab: "🧭 PT-PT/BR, Spanish & UK",
-        title: "Iberian, Lusophone & Germanic Regional Continuums",
-        desc: "Explores how closely related linguistic varieties—European vs. Brazilian Portuguese, Castilian Spanish vs. Catalan, and regional British English tonalities (Geordie, Scouse, Yorkshire) with Germanic roots—use distinct tokens and shift word semantics.",
-        fertility: "2.88x",
-        fracture: "88.5%",
-        slots: {
-          "<|PORTUGAL_VS_BRAZIL|>": ["autocarro", "ônibus", "pequeno-almoço", "café_da_manhã", "telemóvel", "celular", "comboio", "trem"],
-          "<|CASTILIAN_AND_CATALAN|>": ["sobremesa", "madrugada", "seny", "rauxa", "esmorzar", "caliu"],
-          "<|REGIONAL_UK_AND_GERMANIC|>": ["canny", "bairn", "scran", "mardy", "gaffer", "ginnel", "ey_up", "Fingerspitzengefühl"]
-        },
-        sample: "Em Lisboa apanhei o autocarro após o pequeno-almoço; em São Paulo peguei o ônibus depois do café_da_manhã.",
-        before: ["em", "lisboa", "ap", "##an", "##hei", "o", "auto", "##car", "##ro", "ap", "##os", "o", "pe", "##que", "##no", "-", "al", "##mo", "##co", ";", "em", "sao", "paulo", "pe", "##gue", "##i", "o", "on", "##ib", "##us", "depois", "do", "cafe", "_", "da", "_", "man", "##ha", "."],
-        after: ["em", "lisboa", "apanhei", "o", "autocarro", "após", "o", "pequeno-almoço", ";", "em", "são", "paulo", "peguei", "o", "ônibus", "depois", "do", "café_da_manhã", "."],
-        contrasts: [
-          { word: "rapariga", sim: "0.6590", shift: "0.3410", aLabel: "European Portuguese (Neutral Young Woman)", aSent: "Aquela simpática rapariga trabalha na livraria perto da universidade em Lisboa.", bLabel: "Brazilian Portuguese (Colloquial Shift)", bSent: "No interior do Brasil, usar essa palavra pode soar ofensivo dependendo do contexto social.", note: "In Portugal, 'rapariga' is the everyday word for young woman; in Brazil ('moça'/'menina'), it shifts connotation sharply." },
-          { word: "canny", sim: "0.6314", shift: "0.3686", aLabel: "Standard English (Shrewd / Calculating)", aSent: "The canny investor anticipated the market correction months before her rivals.", bLabel: "Geordie / North East England Dialect (Kind, Pleasant)", bSent: "She is a proper canny lass who always makes visitors feel welcome in Newcastle.", note: "Shifts from 'shrewd/calculating' in standard English to 'warm, pleasant, or very good' in North East England." }
-        ]
-      },
-      {
-        id: "culinary_turkey_dinner",
-        tab: "🦃 Turkey Dinner Scene",
-        title: "Sensory & Culinary Scene Decomposition ('The Turkey Dinner Experiment')",
-        desc: "Inspired by the question: 'How do you tokenize a turkey dinner?' Instead of arbitrary character chunks, we tokenize a physical scene by its functional & sensory roles: protein centerpiece, starches, tart/umami sauces, oven, and plates.",
-        fertility: "3.69x",
-        fracture: "100.0%",
-        slots: {
-          "<|CENTERPIECE_AND_STARCHES|>": ["roast_turkey", "mashed_potatoes", "roasted_pumpkin", "herb_stuffing", "sweet_potato_casserole"],
-          "<|SAUCES_AND_CONTRAST_ACCENTS|>": ["pan_gravy", "cranberry_sauce", "sage_butter", "caramelized_shallots", "maillard_crust"],
-          "<|THERMAL_VESSELS_AND_TABLEWARE|>": ["convection_oven", "roasting_pan", "basting_bulb", "warmed_ceramic_plates", "gravy_boat"]
-        },
-        sample: "Out of the convection_oven came the roast_turkey with a crackling maillard_crust, served on warmed_ceramic_plates with mashed_potatoes, roasted_pumpkin, pan_gravy, and cranberry_sauce.",
-        before: ["out", "of", "the", "con", "##vec", "##tion", "_", "oven", "came", "the", "roast", "_", "turkey", "with", "a", "crack", "##ling", "mail", "##lard", "_", "crust", ",", "served", "on", "warmed", "_", "ceramic", "_", "plates", "with", "mas", "##hed", "_", "potatoes", ",", "roasted", "_", "pumpkin", ",", "pan", "_", "gravy", ",", "and", "cran", "##berry", "_", "sauce", "."],
-        after: ["out", "of", "the", "convection_oven", "came", "the", "roast_turkey", "with", "a", "crackling", "maillard_crust", ",", "served", "on", "warmed_ceramic_plates", "with", "mashed_potatoes", ",", "roasted_pumpkin", ",", "pan_gravy", ",", "and", "cranberry_sauce", "."],
-        contrasts: [
-          { word: "dressing", sim: "0.4976", shift: "0.5024", aLabel: "Medical First Aid", aSent: "The nurse applied a sterile gauze dressing to protect the healing wound.", bLabel: "Holiday Culinary Table", bSent: "We spooned savory sage and cornbread dressing beside the roast turkey and gravy.", note: "Shifts from sterile medical wound care to an aromatic herb bread side dish." },
-          { word: "plate", sim: "0.5208", shift: "0.4792", aLabel: "Tectonic Geology", aSent: "The oceanic tectonic plate subducted beneath the continental crust, triggering a tremor.", bLabel: "Culinary Service & Plating", bSent: "The chef arranged the turkey, potatoes, and cranberry reduction on a warm ceramic plate.", note: "Shifts from planetary lithospheric slabs to tableware vessel design." }
-        ]
-      }
-    ];
+    const CHAPTERS = [{"navTitle": "Home · Why Tokenization Matters", "heading": "Expansive Tokenization: Context-of-Interest Vocabulary & 768-D Semantic Shifts", "desc": "Tokenization is not a neutral dictionary lookup—it is an act of classification based on who is speaking, who is listening, and what cultural, regional, or technical world they inhabit. Retraining foundation models from scratch is redundant when you can plug in Context-of-Interest Tokenization Lenses.", "kpis": [{"val": "8 Context Packs", "label": "Pre-Built Domain, Fandom & Dialect Sets"}, {"val": "768-D Vectors", "label": "Empirical BERT Contextual Embedding Shifts"}, {"val": "37.6% Saved", "label": "Token Compression After Atomic Expansion"}], "callouts": [{"title": "🔮 Future of Tokenization Thesis", "body": "Tokenization of the future isn't about training a model from scratch (which is redundant), but giving an AI pluggable Context-of-Interest lenses so it immediately understands either subtle regional dialects or overt LARPing in Greek mythology, anime fandoms, or Edgar Allan Poe."}]}, {"navTitle": "01 · Greek Myth & Epic Poetry", "heading": "Greek Mythology, Homeric Epithets & Poetic Meter", "desc": "Standard BPE shatters 'katabasis' into ['kata', '##bas', '##is'] and 'dactylic_hexameter' into 8 fragments. Expanding the tokenizer preserves classical concepts and compound epithets as atomic tokens.", "kpis": [{"val": "3.12×", "label": "Baseline Subword Fertility (Fractured)"}, {"val": "96.0%", "label": "Semantic Fracture Rate Before Expansion"}, {"val": "0.5418", "label": "768-D Cosine Sim on 'shade' (Tree vs. Hades)"}], "callouts": [{"title": "Atomic Tokens Preserved", "body": "Homeric ethos, underworld rites, and compound epithets:", "pills": ["katabasis", "kleos", "nostos", "xenia", "hubris", "aristeia", "rhapsode", "dactylic_hexameter", "wine-dark_sea", "rosy-fingered_dawn"]}]}, {"navTitle": "02 · Egyptology, Poe, Anime & LARP", "heading": "Hyper-Niche Passions: Egyptology, Edgar Allan Poe Gothic, Anime & LARP", "desc": "A universal Tokenization Set Generator lets any community plug in its vocabulary—from Middle Egyptian cosmology and Poe's complete Gothic works to anime subcultures and Live-Action Roleplay (LARP).", "callouts": [{"title": "🏺 Egyptology & Duat Cosmos", "body": "Preserves hieroglyphic philosophical concepts:", "pills": ["ma'at", "isfet", "ka_and_ba", "akh", "cartouche", "ushabti", "canopic_jar", "duat"]}, {"title": "🐦‍⬛ Edgar Allan Poe Gothic Lexicon", "body": "Preserves Poe's acoustic and macabre vocabulary:", "pills": ["nevermore", "tintinnabulation", "lenore", "amontillado", "tell-tale_heart", "sepulchre", "lugubrious"]}, {"title": "⚔️ Anime & LARP Worldbuilding", "body": "Lets AI immediately recognize overt roleplay and anime tropes:", "pills": ["in-character", "phys-rep", "bleed_effect", "headcanon", "lore_drop", "isekai", "nakama", "sakuga", "chunibyo"]}]}, {"navTitle": "03 · General vs. ML Researcher", "heading": "Interlocutor Adaptation: General Everyday Speaker vs. Machine Learning Engineer", "desc": "When the AI knows it is speaking to someone studying Machine Learning, expanding the token set re-orients the 768-D embeddings of shared words like 'attention', 'weights', and 'loss'.", "table": {"headers": ["Shared Word", "Context A (General Speaker)", "Context B (ML Researcher)", "768-D Cosine Sim", "Vector Shift Δ"], "rows": [["attention", "Pay attention to the teacher in class.", "Multi-head causal attention computes Q, K, V weights.", "0.5843", "0.4157"], ["weights", "He lifted heavy iron weights at the gym.", "We froze the pretrained transformer weights.", "0.5194", "0.4806"], ["loss", "She felt a deep sense of loss after moving.", "Validation loss plateaued during gradient descent.", "0.5629", "0.4371"]]}}, {"navTitle": "04 · Millennial vs. Gen-Z Slang", "heading": "Generational Slang Drift: Millennial vs. Gen-Z Semantic Inversion", "desc": "Generational cohorts coin multi-word idioms and invert the polarity of everyday English tokens ('cooked', 'bet', 'ate', 'aura').", "callouts": [{"title": "Millennial vs. Gen-Z Atomic Tokens", "body": "Comparing generational lexicons:", "pills": ["adulting", "doggo", "on_fleek", "side_hustle", "FOMO", "no_cap", "rizz", "skibidi", "delulu", "main_character_energy", "ate_and_left_no_crumbs"]}]}, {"navTitle": "05 · Commonwealth & World Englishes", "heading": "World Englishes: Singapore (Singlish), UK, Australia & Canada", "desc": "Equips the tokenizer with Commonwealth lexical anchors and tracks how 'boot' (footwear vs. car trunk) and 'scheme' (conspiracy vs. public policy program) shift across regions.", "callouts": [{"title": "Commonwealth Lexical Set", "body": "Regional tokens across SG, UK, AU, and CA:", "pills": ["shiok", "kiasu", "lepak", "makan", "tapau", "kopitiam", "fortnight", "chuffed", "knackered", "arvo", "fair_dinkum", "toque", "double-double"]}]}, {"navTitle": "06 · Québec vs. Paris French", "heading": "Francophone Diatopic Nuances: Québec vs. Paris/Verlan vs. West Africa", "desc": "Demonstrates how one language (French) requires distinct tokenization sets across Québec ('char' = car, 'dépanneur' = corner store), Paris ('char' = military tank, 'chelou', 'boulot'), and West Africa ('teranga', 'griot', 'maquis').", "callouts": [{"title": "Francophone Diatopic Tokens", "body": "Québécois, Parisian Verlan, and Pan-African French:", "pills": ["dépanneur", "tiguidou", "poudrerie", "magasiner", "tuque", "chelou", "relou", "boulot", "bagnole", "teranga", "griot", "maquis"]}]}, {"navTitle": "07 · PT-PT/BR, Spanish/Catalan & UK", "heading": "Iberian, Lusophone & Germanic Regional Continuums", "desc": "Explores European vs. Brazilian Portuguese ('autocarro'/'ônibus', 'pequeno-almoço'/'café_da_manhã', 'rapariga'), Castilian vs. Catalan ('sobremesa', 'seny', 'rauxa'), and Northern English/Germanic kinship ('canny', 'bairn', 'scran', 'Fingerspitzengefühl').", "callouts": [{"title": "Lusophone, Iberian & Germanic Tokens", "body": "Cross-regional linguistic anchors:", "pills": ["autocarro", "ônibus", "pequeno-almoço", "café_da_manhã", "sobremesa", "seny", "rauxa", "canny", "bairn", "scran", "ginnel", "Fingerspitzengefühl"]}]}, {"navTitle": "08 · The Turkey Dinner Experiment", "heading": "Sensory & Culinary Scene Decomposition ('How Do You Tokenize a Turkey Dinner?')", "desc": "Instead of chopping words into character pieces, humans tokenize a physical scene by its functional ontology: centerpiece protein, starches, acid/umami sauces, thermal oven, and warmed plates.", "callouts": [{"title": "🦃 Turkey Dinner Ontological Slots", "body": "Compositional scene tokens:", "pills": ["roast_turkey", "mashed_potatoes", "roasted_pumpkin", "herb_stuffing", "pan_gravy", "cranberry_sauce", "maillard_crust", "convection_oven", "warmed_ceramic_plates"]}]}];
+    let currentIdx = 0;
 
-    function selectPack(index) {
-      const pack = PACKS[index];
-      document.querySelectorAll(".pack-tab").forEach((b, idx) => {
-        b.classList.toggle("active", idx === index);
+    function renderNav(filterText = "") {
+      const q = filterText.toLowerCase().trim();
+      const navEl = document.getElementById("chapterNavList");
+      navEl.innerHTML = "";
+      CHAPTERS.forEach((ch, idx) => {
+        if (q && !ch.navTitle.toLowerCase().includes(q) && !ch.heading.toLowerCase().includes(q) && !ch.desc.toLowerCase().includes(q)) {
+          return;
+        }
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.className = "nav-item" + (idx === currentIdx ? " active" : "");
+        a.textContent = ch.navTitle;
+        a.onclick = () => selectChapter(idx);
+        li.appendChild(a);
+        navEl.appendChild(li);
       });
-      document.getElementById("packTitle").textContent = pack.title;
-      document.getElementById("packDesc").textContent = pack.desc;
-      document.getElementById("metricFertility").textContent = pack.fertility;
-      document.getElementById("metricFracture").textContent = pack.fracture;
+    }
 
-      const slotsEl = document.getElementById("ontologicalSlots");
-      slotsEl.innerHTML = "";
-      for (const [slotName, tokens] of Object.entries(pack.slots)) {
-        const div = document.createElement("div");
-        div.className = "slot-group";
-        div.innerHTML = `<div class="slot-title">${slotName.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</div>` +
-          `<div class="token-pills">${tokens.map(t => `<span class="pill">${t}</span>`).join("")}</div>`;
-        slotsEl.appendChild(div);
-      }
+    function selectChapter(idx) {
+      currentIdx = idx;
+      renderNav(document.getElementById("searchBox").value);
+      const ch = CHAPTERS[idx];
+      const stage = document.getElementById("chapterStage");
 
-      document.getElementById("sampleSentence").textContent = `"${pack.sample}"`;
-      document.getElementById("beforePills").innerHTML = pack.before.map(t =>
-        `<span class="pill ${t.startsWith('##') || t === '_' || t === '-' ? 'fractured' : ''}">${t}</span>`
-      ).join("");
-      document.getElementById("afterPills").innerHTML = pack.after.map(t =>
-        `<span class="pill ${t.includes('_') || t.includes('-') || Object.values(pack.slots).flat().includes(t) ? 'atomic' : ''}">${t}</span>`
-      ).join("");
-
-      const contrastEl = document.getElementById("contrastList");
-      contrastEl.innerHTML = pack.contrasts.map(c => `
-        <div class="contrast-box">
-          <div class="contrast-header">
-            <span class="target-badge">token: "${c.word}"</span>
-            <span class="sim-badge">768-D Cosine Sim: ${c.sim} · Shift Δ: ${c.shift}</span>
-          </div>
-          <div class="ctx-line"><span class="ctx-label">${c.aLabel}:</span> "${c.aSent}"</div>
-          <div class="ctx-line"><span class="ctx-label">${c.bLabel}:</span> "${c.bSent}"</div>
-          <div class="ctx-note">↳ ${c.note}</div>
+      const kpisHtml = (ch.kpis || []).map(k => `
+        <div class="kpi-box">
+          <div class="kpi-val">${k.val}</div>
+          <div class="kpi-label">${k.label}</div>
         </div>
       `).join("");
+
+      const calloutsHtml = (ch.callouts || []).map(c => `
+        <div class="callout">
+          <div class="callout-title">${c.title}</div>
+          <div>${c.body}</div>
+          ${c.pills ? `<div class="pill-row">${c.pills.map(p => `<span class="pill">${p}</span>`).join("")}</div>` : ""}
+        </div>
+      `).join("");
+
+      let tableHtml = "";
+      if (ch.table) {
+        tableHtml = `
+          <table>
+            <thead><tr>${ch.table.headers.map(h => `<th>${h}</th>`).join("")}</tr></thead>
+            <tbody>
+              ${ch.table.rows.map(r => `<tr>${r.map(cell => `<td>${cell}</td>`).join("")}</tr>`).join("")}
+            </tbody>
+          </table>
+        `;
+      }
+
+      stage.innerHTML = `
+        <div class="chapter-card">
+          <div class="chapter-eyebrow">${ch.navTitle}</div>
+          <h2>${ch.heading}</h2>
+          <p class="chapter-desc">${ch.desc}</p>
+          ${kpisHtml ? `<div class="kpi-grid">${kpisHtml}</div>` : ""}
+          ${calloutsHtml}
+          ${tableHtml}
+        </div>
+      `;
+
+      const tocEl = document.getElementById("rightTocList");
+      tocEl.innerHTML = `
+        <li><a href="#">Welcome &amp; Overview</a></li>
+        <li><a href="#"><strong>${ch.navTitle}</strong></a></li>
+        ${(ch.callouts || []).map(c => `<li><a href="#">• ${c.title}</a></li>`).join("")}
+        <li><a href="#">Gwendalynn Lim Wan Ting (SIT)</a></li>
+        <li><a href="mailto:2504137@sit.singaporetech.edu.sg">2504137@sit.singaporetech.edu.sg</a></li>
+      `;
     }
 
-    function exportCustomPack() {
-      const title = document.getElementById("customName").value.trim() || "Custom Pack";
-      const slot = document.getElementById("customSlot").value.trim() || "<|CUSTOM_TOKENS|>";
-      const tokens = document.getElementById("customTokens").value.split(",").map(s => s.trim()).filter(Boolean);
-      const payload = {
-        pack_id: title.toLowerCase().replace(/[^a-z0-9]+/g, "_"),
-        title: title,
-        ontological_categories: { [slot]: tokens },
-        generated_by: "https://github.com/evecount/expansive_tokenization"
-      };
-      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `${payload.pack_id}_tokenization_set.json`;
-      a.click();
-      URL.revokeObjectURL(url);
+    function prevChapter() {
+      if (currentIdx > 0) selectChapter(currentIdx - 1);
+    }
+    function nextChapter() {
+      if (currentIdx < CHAPTERS.length - 1) selectChapter(currentIdx + 1);
+    }
+    function filterChapters(val) {
+      renderNav(val);
+    }
+    function toggleTheme() {
+      const root = document.documentElement;
+      root.setAttribute("data-theme", root.getAttribute("data-theme") === "dark" ? "light" : "dark");
     }
 
-    const tabsContainer = document.getElementById("packTabs");
-    PACKS.forEach((p, idx) => {
-      const btn = document.createElement("button");
-      btn.className = "pack-tab";
-      btn.textContent = p.tab;
-      btn.onclick = () => selectPack(idx);
-      tabsContainer.appendChild(btn);
-    });
-    selectPack(0);
+    renderNav();
+    selectChapter(0);
   </script>
 </body>
 </html>
